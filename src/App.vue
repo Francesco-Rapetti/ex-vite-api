@@ -14,15 +14,26 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Retrieves the types of breweries from the API and adds them to the store's `breweryTypes` array.
+		 *
+		 * @param {type} paramName - description of parameter
+		 * @return {type} description of return value
+		 */
 		getTypes() {
+			// Make a GET request to the API
 			axios.get(this.store.apiUrl).then(res => {
+				// Loop through the response data
 				res.data.forEach(obj => {
+					// Check if the brewery type is not already in the store's `breweryTypes` array
 					if (!this.store.breweryTypes.includes(obj.brewery_type)) {
+						// Add the brewery type to the store's `breweryTypes` array
 						this.store.breweryTypes.push(obj.brewery_type);
 					}
 				});
-			})
+			});
 
+			// Log the updated `breweryTypes` array
 			console.log(this.store.breweryTypes);
 		}
 	},
