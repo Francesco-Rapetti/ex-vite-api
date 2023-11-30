@@ -1,0 +1,11 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #222222;
+	background-image: url('https://www.wowpatterns.com/assets/files/resource_images/doodle-a-mug-beer-with-foam-flat-and-outline-icon-pattern.jpg');
+	background-size: 500px;
+}
