@@ -1,10 +1,12 @@
 <script>
 import AppFilter from './components/AppFilter.vue';
+import AppContent from './components/AppContent.vue';
 import { store } from './store.js';
 import axios from 'axios';
 export default {
 	components: {
-		AppFilter
+		AppFilter,
+		AppContent
 	},
 
 	data() {
@@ -14,32 +16,49 @@ export default {
 	},
 
 	methods: {
+
 		/**
-		 * Retrieves the types of breweries from the API and adds them to the store's `breweryTypes` array.
+		 * Retrieves a list of breweries from the API and updates the `brewery` array in the store.
 		 *
-		 * @param {type} paramName - description of parameter
-		 * @return {type} description of return value
+		 * @return {void} 
 		 */
-		getTypes() {
+		getBreweries() {
 			// Make a GET request to the API
 			axios.get(this.store.apiUrl).then(res => {
 				// Loop through the response data
 				res.data.forEach(obj => {
-					// Check if the brewery type is not already in the store's `breweryTypes` array
-					if (!this.store.breweryTypes.includes(obj.brewery_type)) {
-						// Add the brewery type to the store's `breweryTypes` array
-						this.store.breweryTypes.push(obj.brewery_type);
-					}
+					// Add the brewery object to the `brewery` array in the store
+					this.store.brewery.push(obj);
+					// Call the `getTypes` method to get the types of the brewery
+					this.getTypes(obj);
 				});
 			});
 
 			// Log the updated `breweryTypes` array
 			console.log(this.store.breweryTypes);
+			console.log(this.store.brewery);
+		},
+
+		/**
+		 * Adds the brewery type to the store's `breweryTypes` array if it is not already present.
+		 *
+		 * @param {Object} obj - The object containing the `brewery_type` property.
+		 */
+		getTypes(obj) {
+			// Check if the brewery type is not already in the store's `breweryTypes` array
+			if (!this.store.breweryTypes.includes(obj.brewery_type)) {
+				// Add the brewery type to the store's `breweryTypes` array
+				this.store.breweryTypes.push(obj.brewery_type);
+			}
+		},
+
+		debugFunction() {
+			console.log("triggered");
 		}
 	},
 
 	mounted() {
-		this.getTypes();
+		this.getBreweries();
 	}
 }
 </script>
@@ -47,7 +66,8 @@ export default {
 <template>
 	<div class="wrapper">
 		<div id="glass-container" class="glass">
-			<AppFilter :types="store.breweryTypes" />
+			<AppFilter :types="store.breweryTypes" :optional-function="debugFunction" />
+			<AppContent />
 		</div>
 	</div>
 </template>
