@@ -54,6 +54,14 @@ export default {
 
 		debugFunction() {
 			console.log("triggered");
+		},
+
+		displayBreweries() {
+			const container = document.getElementById('glass-container');
+			if (this.store.selectedType !== null) {
+				container.style.setProperty('height', 'calc(100vh - 40px)');
+				container.style.setProperty('width', 'calc(100% - 40px');
+			}
 		}
 	},
 
@@ -66,7 +74,7 @@ export default {
 <template>
 	<div class="wrapper">
 		<div id="glass-container" class="glass">
-			<AppFilter :types="store.breweryTypes" :optional-function="debugFunction" />
+			<AppFilter :types="store.breweryTypes" :optional-function="displayBreweries" />
 			<AppContent />
 		</div>
 	</div>
@@ -74,10 +82,10 @@ export default {
 
 <style scoped>
 :root {
-	--glass-container-height: auto;
-	--glass-container-width: auto;
-	--glass-container-top: auto;
-	--glass-container-bottom: auto;
+	--glass-container-height: 170px;
+	--glass-container-width: 380px;
+	--glass-container-top: 0;
+	--glass-container-bottom: 0;
 }
 
 .wrapper {
@@ -90,10 +98,10 @@ export default {
 #glass-container {
 	/* height: calc(100vh - 40px); */
 	/* width: calc(100% - 40px); */
-	height: var(--glass-container-height);
-	width: var(--glass-container-width);
+	height: 140px;
+	width: 380px;
 	max-width: 1600px;
-	position: relative;
+	/* position: relative; */
 	top: var(--glass-container-top);
 	bottom: var(--glass-container-bottom);
 	margin: 0 auto;

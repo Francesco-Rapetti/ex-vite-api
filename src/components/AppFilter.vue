@@ -7,7 +7,7 @@ export default {
     data() {
         return {
             // types: ['ciao', 'hello', 'come', 'stai', 'asdasd', 'asdasd'],
-            filterValue: 'default filter',
+            filterValue: null,
             store,
         }
     },
