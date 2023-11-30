@@ -3,7 +3,7 @@ import { setTransitionHooks } from "vue";
 import { store } from "../store.js";
 export default {
     name: 'AppFilter',
-    props: ['types', 'storeVariable'],
+    props: ['types', 'optionalFunction'],
     data() {
         return {
             // types: ['ciao', 'hello', 'come', 'stai', 'asdasd', 'asdasd'],
@@ -13,7 +13,6 @@ export default {
     },
     methods: {
         clickDebug() {
-            this.store.selectedType = this.filterValue;
             console.log(this.filterValue);
             console.log(this.store.selectedType);
             console.log(store.selectedType);
@@ -24,11 +23,12 @@ export default {
 
 <template>
     <div class="d-flex align-items-center justify-content-center m-5">
-        <select class="form-select" aria-label="Default select example" @click="this.filterValue = $event.target.value">
+        <select class="form-select" aria-label="Default select example" @click="filterValue = $event.target.value">
             <option selected value="null">Filter by type</option>
             <option v-for="item in types" :value="item">{{ item }}</option>
         </select>
-        <button class="btn ms-3" @click="clickDebug">Filter</button>
+        <button class="btn ms-3"
+            @click="store.selectedType = filterValue; if (optionalFunction) optionalFunction(); clickDebug()">Filter</button>
     </div>
 </template>
 
