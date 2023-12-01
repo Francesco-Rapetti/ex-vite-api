@@ -27,6 +27,8 @@ export default {
 .card-container {
     opacity: 0;
     transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 0;
 }
 
 .asdasd {

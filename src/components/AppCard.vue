@@ -34,6 +34,7 @@ export default {
          * @param {string} id - The ID of the element to show more information for.
          */
         moreInfo(id) {
+            // Get the card element with the given ID
             const card = document.getElementById(`bigCard${id}`);
 
             // Reset card style if it's already active
@@ -48,6 +49,15 @@ export default {
                 card.style.height = `400px`;
                 card.style.top = '-50%';
                 card.style.left = '-50%';
+
+                // Set other card containers to lower z-index and hide them
+                document.querySelectorAll('.card-container').forEach(card => {
+                    if (card.firstChild.id.substring(4) !== this.cardActive.id.substring(7)) {
+                        card.style.zIndex = '-1';
+                        // console.log('check')
+                        // console.log(card.firstChild.id)
+                    }
+                })
             }
 
             // console.log(this.cardActive);
@@ -63,10 +73,15 @@ export default {
 
             // Setting the opacity, width, height, top, and left properties of the card element
             card.style.opacity = '0';
-            card.style.width = `200px`;
-            card.style.height = `200px`;
-            card.style.top = '0';
-            card.style.left = '0';
+            card.style.width = `200px`; // Set the width to 200px
+            card.style.height = `200px`; // Set the height to 200px
+            card.style.top = '0'; // Set the top position to 0
+            card.style.left = '0'; // Set the left position to 0
+
+            // Set the z-index of all card containers to 0
+            document.querySelectorAll('.card-container').forEach(card => {
+                card.style.zIndex = '0';
+            });
         }
     },
 
@@ -86,13 +101,13 @@ export default {
         <div class="img-container rounded-circle overflow-hidden">
             <img class="w-75" :src="img" alt="">
         </div>
-        <p class="mt-3">{{ title }}</p>
         <div :id="'bigCard' + id" class="full-screen-card"></div>
         <!-- TODO: brewery type -->
         <!-- TODO: address (city, state, country, zip, street) -->
         <!-- TODO: phone number -->
         <!-- TODO: website -->
         <!-- TODO: google maps link (https://www.google.com/maps/place/ + latitude + longitude) -->
+        <p class="mt-3">{{ title }}</p>
     </div>
 </template>
 
@@ -106,11 +121,14 @@ export default {
     padding: 1rem;
     color: white;
     background: rgba(0, 0, 0, 0.79);
+    /* debug color */
+    /* background-color: red; */
     border-radius: 16px;
     transition: height 0.3s ease-in-out, width 0.3s ease-in-out;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(13.6px);
     -webkit-backdrop-filter: blur(13.6px);
+    z-index: 0;
 }
 
 .full-screen-card {
@@ -126,6 +144,7 @@ export default {
     -webkit-backdrop-filter: inherit;
     opacity: 0;
     transition: all 0.3s ease-in-out;
+    z-index: 1 !important;
 }
 
 .img-container {
