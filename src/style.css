@@ -9,3 +9,7 @@ body {
 	background-image: url('https://www.wowpatterns.com/assets/files/resource_images/doodle-a-mug-beer-with-foam-flat-and-outline-icon-pattern.jpg');
 	background-size: 500px;
 }
+
+p {
+	margin: 0 !important;
+}
