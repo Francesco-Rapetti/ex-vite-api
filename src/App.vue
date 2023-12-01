@@ -52,16 +52,42 @@ export default {
 			}
 		},
 
+		/**
+		 * This function is used for debugging purposes. It logs the string "triggered" to the console.
+		 *
+		 * @param {type} paramName - This function does not accept any parameters.
+		 * @return {type} This function does not return anything.
+		 */
 		debugFunction() {
 			console.log("triggered");
 		},
 
-		displayBreweries() {
+		/**
+		 * Displays the breweries in the glass container.
+		 *
+		 * @return {void} This function does not return anything.
+		 */
+		async displayBreweries() {
+			// Delay function to pause execution
+			const delay = ms => new Promise(res => setTimeout(res, ms));
+
+			// Get the container element and card elements
 			const container = document.getElementById('glass-container');
-			if (this.store.selectedType !== null) {
-				container.style.setProperty('height', 'calc(100vh - 40px)');
-				container.style.setProperty('width', 'calc(100% - 40px');
-			}
+			const cards = document.querySelectorAll('.card-container');
+
+			// Animate the container size
+			container.style.transition = 'height 0.3s ease-in-out, width 0.3s ease-in-out';
+			container.style.setProperty('height', 'calc(100vh - 40px)');
+			container.style.setProperty('width', 'calc(100% - 40px');
+
+			// Wait for 300ms before continuing
+			await delay(300);
+
+			// Disable transition and make cards visible
+			container.style.transition = 'none';
+			cards.forEach(card => {
+				card.style.opacity = '1';
+			});
 		}
 	},
 
@@ -75,19 +101,14 @@ export default {
 	<div class="wrapper">
 		<div id="glass-container" class="glass">
 			<AppFilter :types="store.breweryTypes" :optional-function="displayBreweries" />
-			<AppContent />
+			<div class="content">
+				<AppContent />
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-:root {
-	--glass-container-height: 170px;
-	--glass-container-width: 380px;
-	--glass-container-top: 0;
-	--glass-container-bottom: 0;
-}
-
 .wrapper {
 	height: 100vh;
 	display: flex;
@@ -96,20 +117,21 @@ export default {
 }
 
 #glass-container {
-	/* height: calc(100vh - 40px); */
-	/* width: calc(100% - 40px); */
 	height: 140px;
 	width: 380px;
 	max-width: 1600px;
-	/* position: relative; */
-	top: var(--glass-container-top);
-	bottom: var(--glass-container-bottom);
 	margin: 0 auto;
-	transition: all 0.3s ease-in-out;
+
 	background: rgba(255, 255, 255, 0.47);
 	border-radius: 16px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(7px);
 	-webkit-backdrop-filter: blur(7px);
+}
+
+.content {
+	height: calc(100% - 140px);
+	overflow: auto;
+	padding: 100px;
 }
 </style>
