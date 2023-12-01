@@ -6,12 +6,14 @@ export default {
     props: ['types', 'optionalFunction'],
     data() {
         return {
-            // types: ['ciao', 'hello', 'come', 'stai', 'asdasd', 'asdasd'],
-            filterValue: null,
+            filterValue: "all",
             store,
         }
     },
     methods: {
+        /**
+         * Logs the filterValue, selectedType, and store.selectedType to the console.
+         */
         clickDebug() {
             console.log(this.filterValue);
             console.log(this.store.selectedType);
@@ -24,7 +26,7 @@ export default {
 <template>
     <div class="d-flex align-items-center justify-content-center m-5">
         <select class="form-select" aria-label="Default select example" @click="filterValue = $event.target.value">
-            <option selected value="null">Filter by type</option>
+            <option selected value="all">All</option>
             <option v-for="item in types" :value="item">{{ item }}</option>
         </select>
         <button class="btn ms-3"
