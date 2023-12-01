@@ -18,7 +18,10 @@ export default {
     <div class="wrap d-flex flex-wrap justify-content-center">
         <div class="card-container" v-for="brewery in store.brewery"
             v-show="brewery.brewery_type == store.selectedType || store.selectedType == 'all'">
-            <AppCard :id="brewery.id" :title="brewery.name" img="/beer.png" />
+            <AppCard :id="brewery.id" :title="brewery.name" img="/beer.png" :type="brewery.brewery_type"
+                :address="`${brewery.street}, ${brewery.city}, ${brewery.postal_code}, ${brewery.state}, ${brewery.country}`"
+                :phone="brewery.phone" :website="brewery.website_url"
+                :maps-link="'https://www.google.com/maps/place/' + brewery.latitude + ',' + brewery.longitude" />
         </div>
     </div>
 </template>
