@@ -33,7 +33,8 @@ export default {
          * Function to show more information for a given ID.
          * @param {string} id - The ID of the element to show more information for.
          */
-        moreInfo(id) {
+        async moreInfo(id) {
+            const delay = ms => new Promise(res => setTimeout(res, ms));
             // Get the card element with the given ID
             const bigCard = document.getElementById(`bigCard${id}`);
             const card = document.getElementById(`card${id}`);
@@ -50,6 +51,7 @@ export default {
                 bigCard.style.height = `400px`;
                 bigCard.style.top = '-50%';
                 bigCard.style.left = '-50%';
+                card.style.cursor = 'default';
 
                 // Set other card containers to lower z-index and hide them
                 document.querySelectorAll('.card-container').forEach(card => {
@@ -59,6 +61,21 @@ export default {
                         // console.log(card.firstChild.id)
                     }
                 })
+
+                // Wait for 300 milliseconds
+                await delay(300);
+
+                // Log the child nodes of the bigCard element
+                // console.log(bigCard.childNodes);
+
+                // Iterate over each child node of the bigCard element
+                bigCard.childNodes.forEach(async child => {
+                    child.style.display = 'block';
+
+                    await delay(10);
+
+                    child.style.opacity = '1';
+                });
             }
 
             // console.log(this.cardActive);
@@ -66,22 +83,34 @@ export default {
 
         /**
          * Resets the style of a card element.
-         * @param {HTMLElement} card - The card element to reset.
+         * @param {HTMLElement} bigCard - The card element to reset.
          */
-        resetCardStyle(bigCard) {
+        async resetCardStyle(bigCard) {
+            const delay = ms => new Promise(res => setTimeout(res, ms));
+
+            // Fade out and hide each child node of the bigCard element
+            bigCard.childNodes.forEach(async child => {
+                child.style.opacity = '0';
+                await delay(300);
+                child.style.display = 'none';
+            });
+
+            await delay(300);
+
             // Resetting cardActive to null
             this.cardActive = null;
 
-            // Setting the opacity, width, height, top, and left properties of the card element
+            // Setting the opacity, width, height, top, and left properties of the bigCard element
             bigCard.style.opacity = '0';
-            bigCard.style.width = `200px`; // Set the width to 200px
-            bigCard.style.height = `200px`; // Set the height to 200px
-            bigCard.style.top = '0'; // Set the top position to 0
-            bigCard.style.left = '0'; // Set the left position to 0
+            bigCard.style.width = '200px';
+            bigCard.style.height = '200px';
+            bigCard.style.top = '0';
+            bigCard.style.left = '0';
 
             // Set the z-index of all card containers to 0
             document.querySelectorAll('.card-container').forEach(card => {
                 card.style.zIndex = '0';
+                card.firstChild.style.cursor = 'pointer';
             });
         }
     },
@@ -177,6 +206,12 @@ export default {
     z-index: 1 !important;
 }
 
+.full-screen-card>* {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
 .img-container {
     width: 100px;
     height: 100px;
@@ -184,9 +219,5 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.item-list {
-    width: 30px;
 }
 </style>
