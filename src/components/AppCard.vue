@@ -112,6 +112,10 @@ export default {
                 card.style.zIndex = '0';
                 card.firstChild.style.cursor = 'pointer';
             });
+        },
+
+        getImagePath(img) {
+            return new URL(`../assets/img/${img}`, import.meta.url).href
         }
     },
 
@@ -129,7 +133,7 @@ export default {
 <template>
     <div :id="'card' + id" class="card-element" @click="moreInfo(id)">
         <div class="img-container rounded-circle overflow-hidden">
-            <img class="w-75" :src="img" alt="">
+            <img class="w-75" :src="getImagePath(img)" alt="">
         </div>
         <div :id="'bigCard' + id" class="full-screen-card p-5">
             <h4 class="mb-4">{{ title }}</h4>
